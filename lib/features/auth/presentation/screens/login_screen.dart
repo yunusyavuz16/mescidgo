@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mescidgo/core/constants/colors.dart';
 import 'package:mescidgo/core/utils/navigation.dart';
 import 'package:mescidgo/features/auth/presentation/screens/email_screen.dart';
+import 'package:mescidgo/features/home/presentation/screens/home_screen.dart'; // Doğru yolu kontrol edin
 import 'package:mescidgo/features/auth/presentation/widgets/custom_button.dart';
 
 class LoginScreen extends StatelessWidget {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryBeige,
+      backgroundColor: AppColors.lightGrey,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -29,8 +33,18 @@ class LoginScreen extends StatelessWidget {
                 text: 'Sign in with Google',
                 backgroundColor: AppColors.primaryGreen,
                 textColor: AppColors.primaryBeige,
-                onPressed: () {
-                  // Google Sign-In functionality here
+                onPressed: () async {
+                  try {
+                    final GoogleSignInAccount? account = await _googleSignIn.signIn();
+                    if (account != null) {
+                      // Giriş başarılı, kullanıcı bilgileri burada işlenebilir
+                      print('User signed in: ${account.displayName}');
+                      // HomeScreen'e yönlendiriyoruz
+                      Navigator.of(context).pushReplacementNamed('/home');
+                    }
+                  } catch (error) {
+                    print('Sign in failed: $error');
+                  }
                 },
               ),
               SizedBox(height: 20),
@@ -45,7 +59,7 @@ class LoginScreen extends StatelessWidget {
                 backgroundColor: AppColors.nearBlack,
                 textColor: AppColors.primaryBeige,
                 onPressed: () {
-                  NavigationUtil.navigateTo(context, EmailScreen());
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => EmailScreen()));
                 },
               ),
             ],

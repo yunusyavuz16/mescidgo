@@ -6,7 +6,7 @@ class EmailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryBeige,
+      backgroundColor: AppColors.lightGrey,
       appBar: AppBar(
         title: Text('Sign in with Email'),
         backgroundColor: AppColors.primaryGreen,
