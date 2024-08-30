@@ -1,13 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mescidgo/core/constants/colors.dart';
-import 'package:mescidgo/core/utils/navigation.dart';
 import 'package:mescidgo/features/auth/presentation/screens/email_screen.dart';
-import 'package:mescidgo/features/home/presentation/screens/home_screen.dart'; // Doğru yolu kontrol edin
+import 'package:mescidgo/features/home/presentation/screens/home_screen.dart';
 import 'package:mescidgo/features/auth/presentation/widgets/custom_button.dart';
 
 class LoginScreen extends StatelessWidget {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> _signInWithGoogle(BuildContext context) async {
+    try {
+      // Google ile oturum aç
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        // Kullanıcı oturum açmayı iptal etti
+        return;
+      }
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      // Firebase'de oturum açmak için kimlik bilgileri oluştur
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Firebase'de oturum aç
+      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      final User? user = userCredential.user;
+
+      if (user != null) {
+        // Kullanıcı başarılı bir şekilde Firebase'de oturum açtı
+        Navigator.of(context).pushReplacementNamed('/home');
+      }
+    } catch (e) {
+      print('Google Sign-In failed: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +65,7 @@ class LoginScreen extends StatelessWidget {
                 backgroundColor: AppColors.primaryGreen,
                 textColor: AppColors.primaryBeige,
                 onPressed: () async {
-                  try {
-                    final GoogleSignInAccount? account = await _googleSignIn.signIn();
-                    if (account != null) {
-                      // Giriş başarılı, kullanıcı bilgileri burada işlenebilir
-                      print('User signed in: ${account.displayName}');
-                      // HomeScreen'e yönlendiriyoruz
-                      Navigator.of(context).pushReplacementNamed('/home');
-                    }
-                  } catch (error) {
-                    print('Sign in failed: $error');
-                  }
+                  await _signInWithGoogle(context);
                 },
               ),
               SizedBox(height: 20),
@@ -59,7 +80,9 @@ class LoginScreen extends StatelessWidget {
                 backgroundColor: AppColors.nearBlack,
                 textColor: AppColors.primaryBeige,
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => EmailScreen()));
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => EmailScreen()),
+                  );
                 },
               ),
             ],
