@@ -19,6 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: titleCentered,
       leading: showBackButton
           ? IconButton(
               icon: FaIcon(FontAwesomeIcons.chevronLeft,

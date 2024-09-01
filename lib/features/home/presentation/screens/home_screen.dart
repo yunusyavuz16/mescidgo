@@ -6,6 +6,7 @@ import 'package:mescidgo/core/constants/styles.dart';
 import 'package:mescidgo/core/utils/prayer_time_checker.dart';
 import 'package:mescidgo/features/home/presentation/widgets/dashed_line.dart';
 import 'package:mescidgo/features/home/presentation/widgets/prayer_time_item.dart';
+import 'package:mescidgo/features/home/presentation/widgets/prayer_times_buttons.dart';
 import 'package:mescidgo/models/prayer_times.dart';
 import 'package:mescidgo/services/prayer_times.dart';
 
@@ -118,49 +119,56 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisCount: 3,
                               mainAxisSpacing: 8.0,
                               crossAxisSpacing: 8.0,
-                              childAspectRatio: 2.5, // Değer artırıldı
+                              childAspectRatio: 2.5,
                               children: [
                                 PrayerTimeItem(
                                   timeName: PrayerTime.imsak.label,
                                   time: prayerTimes?.imsak ?? "",
-                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
-                                      prayerTimes!, PrayerTime.imsak),
+                                  isCurrent:
+                                      prayerTimeChecker.isCurrentPrayerTime(
+                                          prayerTimes!, PrayerTime.imsak),
                                 ),
                                 PrayerTimeItem(
                                   timeName: PrayerTime.sabah.label,
                                   time: prayerTimes?.sabah ?? "",
-                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
-                                      prayerTimes, PrayerTime.sabah),
+                                  isCurrent:
+                                      prayerTimeChecker.isCurrentPrayerTime(
+                                          prayerTimes, PrayerTime.sabah),
                                 ),
                                 PrayerTimeItem(
                                   timeName: PrayerTime.gunes.label,
                                   time: prayerTimes?.gunes ?? "",
-                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
-                                      prayerTimes, PrayerTime.gunes),
+                                  isCurrent:
+                                      prayerTimeChecker.isCurrentPrayerTime(
+                                          prayerTimes, PrayerTime.gunes),
                                 ),
                                 PrayerTimeItem(
                                   timeName: PrayerTime.ogle.label,
                                   time: prayerTimes?.ogle ?? "",
-                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
-                                      prayerTimes, PrayerTime.ogle),
+                                  isCurrent:
+                                      prayerTimeChecker.isCurrentPrayerTime(
+                                          prayerTimes, PrayerTime.ogle),
                                 ),
                                 PrayerTimeItem(
                                   timeName: PrayerTime.ikindi.label,
                                   time: prayerTimes?.ikindi ?? "",
-                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
-                                      prayerTimes, PrayerTime.ikindi),
+                                  isCurrent:
+                                      prayerTimeChecker.isCurrentPrayerTime(
+                                          prayerTimes, PrayerTime.ikindi),
                                 ),
                                 PrayerTimeItem(
                                   timeName: PrayerTime.aksam.label,
                                   time: prayerTimes?.aksam ?? "",
-                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
-                                      prayerTimes, PrayerTime.aksam),
+                                  isCurrent:
+                                      prayerTimeChecker.isCurrentPrayerTime(
+                                          prayerTimes, PrayerTime.aksam),
                                 ),
                                 PrayerTimeItem(
                                   timeName: PrayerTime.yatsi.label,
                                   time: prayerTimes?.yatsi ?? "",
-                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
-                                      prayerTimes, PrayerTime.yatsi),
+                                  isCurrent:
+                                      prayerTimeChecker.isCurrentPrayerTime(
+                                          prayerTimes, PrayerTime.yatsi),
                                 ),
                               ],
                             ),
@@ -171,6 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+              PrayerTimesButtons(), // Yeni widget'ı burada kullanın
             ],
           );
         },

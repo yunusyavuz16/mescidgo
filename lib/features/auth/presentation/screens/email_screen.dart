@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:mescidgo/core/constants/colors.dart';
+import 'package:mescidgo/core/widgets/custom_app_bar.dart';
 import 'package:mescidgo/features/auth/presentation/widgets/custom_button.dart';
 
 class EmailScreen extends StatefulWidget {
@@ -24,6 +25,7 @@ class _EmailScreenState extends State<EmailScreen> {
 
       // Update the last sign-in time
       await _updateLastSignInTime(userCredential.user);
+      print('Signed in: ${userCredential.user}');
 
       // Navigate to the next screen or show a success message
       print('Signed in: ${userCredential.user?.email}');
@@ -54,9 +56,10 @@ class _EmailScreenState extends State<EmailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightGrey,
-      appBar: AppBar(
-        title: Text('Sign in with Email'),
-        backgroundColor: AppColors.primaryGreen,
+      appBar: CustomAppBar(
+        title: 'Sign in with Email',
+        showBackButton: true,
+        titleCentered: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
