@@ -45,3 +45,9 @@ app.*.map.json
 
 
 ios/Runner/GoogleService-Info.plist
+
+# string.xml
+/android/app/src/main/res/values/strings.xml
+
+# Info.plist
+/ios/Runner/Info.plist
