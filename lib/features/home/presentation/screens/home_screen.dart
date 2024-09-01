@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: Styles.screenPadding,
                   child: Container(
-                    height: 230,
+                    height: 220,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: AppColors.white,
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: Styles.screenPadding,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: Styles.screenPadding,
                             child: GridView.count(
                               crossAxisCount: 3,
                               mainAxisSpacing: 8.0,

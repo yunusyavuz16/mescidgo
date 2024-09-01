@@ -7,6 +7,7 @@ import 'package:mescidgo/features/settings/presentation/screens/settings_screen.
 import 'package:mescidgo/features/splash/presentation/splash_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mescidgo/features/userPrayerTimes/presentation/screens/user_prayer_times_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomeScreen(),
         '/login': (context) => LoginScreen(),
         '/settings': (context) => SettingsScreen(),
+        '/user-prayer-times': (context) => UserPrayerTimesScreen(),
         // Add other routes here
       },
     );
