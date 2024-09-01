@@ -119,7 +119,7 @@ class PrayerTimesButtons extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            'Tümünü Gör',
+                            '',
                             style: TextStyle(
                               color: AppColors.primaryGreen,
                               fontWeight: FontWeight.bold,
@@ -139,7 +139,7 @@ class PrayerTimesButtons extends StatelessWidget {
                 future: _checkAndCreatePrayerTimes(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: CircularProgressIndicator(color: AppColors.primaryGreen,));
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else {
@@ -154,7 +154,7 @@ class PrayerTimesButtons extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(child: CircularProgressIndicator(color: AppColors.darkGreen,));
                         } else if (snapshot.hasError) {
                           return Center(
                               child: Text('Error: ${snapshot.error}'));

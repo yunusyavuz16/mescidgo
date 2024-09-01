@@ -113,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 : SizedBox.shrink(),
             SizedBox(height: 20),
             _isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? Center(child: CircularProgressIndicator(color: AppColors.primaryGreen))
                 : CustomButton(
                     text: 'Register',
                     backgroundColor: AppColors.primaryGreen,

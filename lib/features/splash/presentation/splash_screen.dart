@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mescidgo/features/auth/presentation/screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -13,13 +12,17 @@ class _SplashScreenState extends State<SplashScreen> {
     _navigateToLogin();
   }
 
-  void _navigateToLogin() async {
-    await Future.delayed(Duration(seconds: 3));
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => LoginScreen()),
+void _navigateToLogin() async {
+  await Future.delayed(Duration(seconds: 3));
+
+  // Check if the widget is still mounted before navigating
+  if (mounted) {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      '/login',
+      (route) => false,
     );
   }
-
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

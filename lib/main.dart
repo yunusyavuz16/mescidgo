@@ -1,12 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:mescidgo/features/auth/presentation/screens/login_screen.dart';
 import 'package:mescidgo/features/home/presentation/screens/home_screen.dart';
 import 'package:mescidgo/features/settings/presentation/screens/settings_screen.dart';
 import 'package:mescidgo/features/splash/presentation/splash_screen.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:mescidgo/features/userPrayerTimes/presentation/screens/user_prayer_times_screen.dart';
 
 void main() async {

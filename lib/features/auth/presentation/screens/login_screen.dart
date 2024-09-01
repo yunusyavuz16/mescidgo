@@ -1,20 +1,37 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:mescidgo/core/constants/colors.dart';
+import 'package:mescidgo/core/widgets/custom_loading_overlay.dart';
 import 'package:mescidgo/features/auth/presentation/screens/email_screen.dart';
-import 'package:mescidgo/features/home/presentation/screens/home_screen.dart';
-import 'package:mescidgo/features/auth/presentation/screens/register_screen.dart'; // Import the register screen
+import 'package:mescidgo/features/auth/presentation/screens/register_screen.dart';
 import 'package:mescidgo/features/auth/presentation/widgets/custom_button.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseDatabase _database = FirebaseDatabase.instance;
 
-  Future<void> _signInWithGoogle(BuildContext context) async {
+  bool _isLoadingGoogle = false;
+  bool _isLoadingApple = false;
+
+  Future<void> _signInWithGoogle() async {
+    setState(() {
+      _isLoadingGoogle = true;
+    });
+
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
       if (googleUser == null) {
         return;
       }
@@ -27,20 +44,62 @@ class LoginScreen extends StatelessWidget {
         idToken: googleAuth.idToken,
       );
 
+      print("credential: $credential");
+
       final UserCredential userCredential =
           await _auth.signInWithCredential(credential);
+
+      print("userCredential: $userCredential");
       final User? user = userCredential.user;
 
-      if (user != null) {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-      }
+      final DateTime now = DateTime.now();
+
+      await _database
+          .ref()
+          .child('users')
+          .child(user!.uid)
+          .child('lastSignInTime')
+          .update({'lastSignInTime': now.toString()});
+
+      print("user: $user");
+
+      await _database
+          .ref()
+          .child('users')
+          .child(user.uid)
+          .child('email')
+          .set(user.email);
+
+      await _database
+          .ref()
+          .child('users')
+          .child(user.uid)
+          .child('name')
+          .set(user.displayName!.split(' ')[0]);
+
+      await _database
+          .ref()
+          .child('users')
+          .child(user.uid)
+          .child('surname')
+          .set(user.displayName!.split(' ')[1]);
+
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
     } catch (e) {
-      print('Google Sign-In failed: $e');
+      _showErrorDialog('Google Sign-In failed: $e');
+    } finally {
+      setState(() {
+        _isLoadingGoogle = false;
+      });
     }
   }
 
-  Future<void> _signInWithApple(BuildContext context) async {
+  Future<void> _signInWithApple() async {
+    setState(() {
+      _isLoadingApple = true;
+    });
+
     try {
       final appleCredential = await SignInWithApple.getAppleIDCredential(
         scopes: [
@@ -63,78 +122,111 @@ class LoginScreen extends StatelessWidget {
             .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
       }
     } catch (e) {
-      print('Apple Sign-In failed: $e');
+      _showErrorDialog('Apple Sign-In failed: $e');
+    } finally {
+      setState(() {
+        _isLoadingApple = false;
+      });
     }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightGrey,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Welcome Back!',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: AppColors.nearBlack,
-                      fontWeight: FontWeight.bold,
-                    ),
+      body: Stack(
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Welcome Back!',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: AppColors.nearBlack,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  SizedBox(height: 40),
+                  CustomButton(
+                    text: 'Sign in with Google',
+                    backgroundColor: AppColors.primaryGreen,
+                    textColor: AppColors.primaryBeige,
+                    isLoading: _isLoadingGoogle,
+                    onPressed: _isLoadingGoogle ? null : _signInWithGoogle,
+                  ),
+                  SizedBox(height: 20),
+                  CustomButton(
+                    text: 'Sign in with Apple',
+                    backgroundColor: Colors.black,
+                    textColor: AppColors.primaryBeige,
+                    isLoading: _isLoadingApple,
+                    onPressed: _isLoadingApple ? null : _signInWithApple,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'or',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: AppColors.nearBlack),
+                  ),
+                  SizedBox(height: 20),
+                  CustomButton(
+                    text: 'Sign in with Email',
+                    backgroundColor: AppColors.nearBlack,
+                    textColor: AppColors.primaryBeige,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => EmailScreen()),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  CustomButton(
+                    text: 'Register',
+                    backgroundColor: AppColors.primaryBeige,
+                    textColor: AppColors.nearBlack,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => RegisterScreen()),
+                      );
+                    },
+                  ),
+                ],
               ),
-              SizedBox(height: 40),
-              CustomButton(
-                text: 'Sign in with Google',
-                backgroundColor: AppColors.primaryGreen,
-                textColor: AppColors.primaryBeige,
-                onPressed: () async {
-                  await _signInWithGoogle(context);
-                },
-              ),
-              SizedBox(height: 20),
-              CustomButton(
-                text: 'Sign in with Apple',
-                backgroundColor: Colors.black,
-                textColor: AppColors.primaryBeige,
-                onPressed: () async {
-                  await _signInWithApple(context);
-                },
-              ),
-              SizedBox(height: 20),
-              Text(
-                'or',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.nearBlack),
-              ),
-              SizedBox(height: 20),
-              CustomButton(
-                text: 'Sign in with Email',
-                backgroundColor: AppColors.nearBlack,
-                textColor: AppColors.primaryBeige,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => EmailScreen()),
-                  );
-                },
-              ),
-              SizedBox(height: 20),
-              CustomButton(
-                text: 'Register',
-                backgroundColor: AppColors.primaryBeige,
-                textColor: AppColors.nearBlack,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => RegisterScreen()),
-                  );
-                },
-              ),
-            ],
+            ),
           ),
-        ),
+          CustomLoadingOverlay(
+            isLoading: _isLoadingGoogle || _isLoadingApple,
+            message: _isLoadingGoogle
+                ? 'Signing in with Google...'
+                : 'Signing in with Apple...',
+          ),
+        ],
       ),
     );
   }

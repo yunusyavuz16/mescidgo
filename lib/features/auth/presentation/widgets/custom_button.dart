@@ -4,31 +4,47 @@ class CustomButton extends StatelessWidget {
   final String text;
   final Color backgroundColor;
   final Color textColor;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
+  final bool isLoading; // Yeni özellik
 
   const CustomButton({
     required this.text,
     required this.backgroundColor,
     required this.textColor,
-    required this.onPressed,
+    this.onPressed,
+    this.isLoading = false, // Varsayılan olarak false
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
         foregroundColor: textColor,
-        padding: EdgeInsets.symmetric(vertical: 16),
+        minimumSize: Size(double.infinity, 50),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(8),
         ),
       ),
-      child: Text(
-        text,
-        style: TextStyle(fontSize: 18),
-      ),
+      onPressed: isLoading ? null : onPressed,
+      child: isLoading
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(textColor),
+                ),
+                SizedBox(width: 20),
+                Text(
+                  text,
+                  style: TextStyle(color: textColor, fontSize: 16),
+                ),
+              ],
+            )
+          : Text(
+              text,
+              style: TextStyle(color: textColor, fontSize: 16),
+            ),
     );
   }
 }
