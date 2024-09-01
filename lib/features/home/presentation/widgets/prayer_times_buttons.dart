@@ -119,7 +119,7 @@ class PrayerTimesButtons extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            '',
+                            'Tümünü Gör',
                             style: TextStyle(
                               color: AppColors.primaryGreen,
                               fontWeight: FontWeight.bold,

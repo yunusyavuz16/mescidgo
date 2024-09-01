@@ -20,13 +20,13 @@ class Styles {
   );
 
   static const TextStyle buttonTextStyle = TextStyle(
-    fontSize: 14.0,
+    fontSize: 12.0,
     color: Colors.black87,
     backgroundColor: Colors.white
   );
 
   static const TextStyle successTextStyleSmall = TextStyle(
-    fontSize: 14.0,
+    fontSize: 12.0,
     color: Colors.white,
   );
 
