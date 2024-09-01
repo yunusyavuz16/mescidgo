@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mescidgo/core/constants/colors.dart';
 
 class Styles {
   static const TextStyle titleTextStyle = TextStyle(
@@ -10,17 +11,23 @@ class Styles {
   static const TextStyle subtitleTextStyle = TextStyle(
     fontSize: 18.0,
     fontWeight: FontWeight.w500,
-    color: Colors.black54,
+    color: AppColors.nearBlack,
   );
 
   static const TextStyle bodyTextStyle = TextStyle(
     fontSize: 16.0,
-    color: Colors.black87,
+    color: AppColors.nearBlack,
   );
 
   static const TextStyle buttonTextStyle = TextStyle(
-    fontSize: 12.0,
+    fontSize: 14.0,
     color: Colors.black87,
+    backgroundColor: Colors.white
+  );
+
+  static const TextStyle successTextStyleSmall = TextStyle(
+    fontSize: 14.0,
+    color: Colors.white,
   );
 
   // Font Sizes

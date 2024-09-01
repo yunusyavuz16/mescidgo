@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mescidgo/core/constants/colors.dart';
+import 'package:mescidgo/core/constants/prayer_times_enum.dart';
 import 'package:mescidgo/core/constants/styles.dart';
+import 'package:mescidgo/core/utils/prayer_time_checker.dart';
 import 'package:mescidgo/features/home/presentation/widgets/dashed_line.dart';
+import 'package:mescidgo/features/home/presentation/widgets/prayer_time_item.dart';
 import 'package:mescidgo/models/prayer_times.dart';
 import 'package:mescidgo/services/prayer_times.dart';
 
@@ -12,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future<PrayerTimes> futurePrayerTimes;
+  final PrayerTimeChecker prayerTimeChecker = PrayerTimeChecker();
 
   @override
   void initState() {
@@ -21,15 +26,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd MMM', 'tr').format(now);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Mescid Go', style: Styles.titleTextStyle),
         backgroundColor: AppColors.primaryGreen,
+        centerTitle: false,
         actions: [
           IconButton(
             icon: Icon(Icons.settings, color: Colors.white),
             onPressed: () {
-              // Navigate to settings screen
+              Navigator.pushNamed(context, '/settings');
             },
           ),
         ],
@@ -44,8 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
           } else if (!snapshot.hasData) {
             return Center(child: Text('No data available'));
           }
-          // {tarih: 2024-08-29, imsak: [{tarih: 2024-08-29T01:33:00Z, is_takdiri: false}], israk: [], sabah: [{tarih: 2024-08-29T01:53:00Z, is_takdiri: false}], gunes: [{tarih: 2024-08-29T03:20:00Z, is_takdiri: false}], ogle: [{tarih: 2024-08-29T10:15:00Z, is_takdiri: false}], ikindi: [{tarih: 2024-08-29T13:57:00Z, is_takdiri: false}], aksam: [{tarih: 2024-08-29T16:49:00Z, is_takdiri: false}], yatsi: [{tarih: 2024-08-29T18:23:00Z, is_takdiri: false}]}
-          // above data is snapshot.data changing it to PrayerTimes object
 
           final prayerTimes = snapshot.data;
 
@@ -64,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: Styles.screenPadding,
                   child: Container(
-                    height: 200, // Increased height to fit all the times
+                    height: 230,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: AppColors.white,
@@ -80,26 +87,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Column(
                       children: [
-                        // Upper part with location and current prayer time
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              // Left side: Location
                               Text(
-                                'Istanbul',
+                                'İstanbul',
                                 style: Styles.subtitleTextStyle,
                               ),
-                              // Right side: Current prayer time
                               Text(
-                                'Öğle', // You can dynamically set this based on current time
+                                formattedDate,
                                 style: Styles.subtitleTextStyle,
                               ),
                             ],
                           ),
                         ),
-                        // Dashed green border
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 16.0),
                           child: DashedLine(
@@ -108,31 +111,57 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: double.infinity,
                           ),
                         ),
-                        // Lower part: Prayer times
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: GridView.count(
-                              crossAxisCount: 3, // 3 items per row
+                              crossAxisCount: 3,
                               mainAxisSpacing: 8.0,
                               crossAxisSpacing: 8.0,
-                              childAspectRatio:
-                                  3, // Adjust this to control the width/height ratio
+                              childAspectRatio: 2.5, // Değer artırıldı
                               children: [
-                                Text('İmsak: ${prayerTimes?.imsak ?? ""}',
-                                    style: Styles.buttonTextStyle),
-                                Text('Sabah: ${prayerTimes?.sabah ?? ""}',
-                                    style: Styles.buttonTextStyle),
-                                Text('Güneş: ${prayerTimes?.gunes ?? ""}',
-                                    style: Styles.buttonTextStyle),
-                                Text('Öğle: ${prayerTimes?.ogle ?? ""}',
-                                    style: Styles.buttonTextStyle),
-                                Text('İkindi: ${prayerTimes?.ikindi}',
-                                    style: Styles.buttonTextStyle),
-                                Text('Akşam: ${prayerTimes?.aksam}',
-                                    style: Styles.buttonTextStyle),
-                                Text('Yatsı: ${prayerTimes?.yatsi}',
-                                    style: Styles.buttonTextStyle),
+                                PrayerTimeItem(
+                                  timeName: PrayerTime.imsak.label,
+                                  time: prayerTimes?.imsak ?? "",
+                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
+                                      prayerTimes!, PrayerTime.imsak),
+                                ),
+                                PrayerTimeItem(
+                                  timeName: PrayerTime.sabah.label,
+                                  time: prayerTimes?.sabah ?? "",
+                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
+                                      prayerTimes, PrayerTime.sabah),
+                                ),
+                                PrayerTimeItem(
+                                  timeName: PrayerTime.gunes.label,
+                                  time: prayerTimes?.gunes ?? "",
+                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
+                                      prayerTimes, PrayerTime.gunes),
+                                ),
+                                PrayerTimeItem(
+                                  timeName: PrayerTime.ogle.label,
+                                  time: prayerTimes?.ogle ?? "",
+                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
+                                      prayerTimes, PrayerTime.ogle),
+                                ),
+                                PrayerTimeItem(
+                                  timeName: PrayerTime.ikindi.label,
+                                  time: prayerTimes?.ikindi ?? "",
+                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
+                                      prayerTimes, PrayerTime.ikindi),
+                                ),
+                                PrayerTimeItem(
+                                  timeName: PrayerTime.aksam.label,
+                                  time: prayerTimes?.aksam ?? "",
+                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
+                                      prayerTimes, PrayerTime.aksam),
+                                ),
+                                PrayerTimeItem(
+                                  timeName: PrayerTime.yatsi.label,
+                                  time: prayerTimes?.yatsi ?? "",
+                                  isCurrent: prayerTimeChecker.isCurrentPrayerTime(
+                                      prayerTimes, PrayerTime.yatsi),
+                                ),
                               ],
                             ),
                           ),
