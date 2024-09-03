@@ -1,9 +1,8 @@
-import 'package:adhan_dart/adhan_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:mescidgo/core/constants/colors.dart';
 import 'package:mescidgo/core/constants/prayer_times_enum.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:mescidgo/core/widgets/custom_app_bar.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class UserPrayerTimesScreen extends StatefulWidget {
   @override
@@ -42,6 +41,23 @@ class _UserPrayerTimesScreenState extends State<UserPrayerTimesScreen> {
         prayerTimes[dayString]![prayerName] = true;
       }
     });
+  }
+
+  String _getPrayerTimeLabelByName (String prayerName) {
+    switch (prayerName) {
+      case 'sabah':
+        return PrayerTime.sabah.label;
+      case 'ogle':
+        return PrayerTime.ogle.label;
+      case 'ikindi':
+        return PrayerTime.ikindi.label;
+      case 'aksam':
+        return PrayerTime.aksam.label;
+      case 'yatsi':
+        return PrayerTime.yatsi.label;
+      default:
+        return '';
+    }
   }
 
   void _markDayAsPrayed(DateTime day) {
@@ -209,7 +225,7 @@ class _UserPrayerTimesScreenState extends State<UserPrayerTimesScreen> {
                                     ? AppColors.primaryGreen
                                     : Colors.red,
                           ),
-                          child: Text(prayer,
+                          child: Text(_getPrayerTimeLabelByName(prayer),
                               style: TextStyle(color: Colors.white)),
                         ))
                     .toList(),

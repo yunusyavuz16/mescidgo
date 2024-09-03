@@ -44,12 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
         idToken: googleAuth.idToken,
       );
 
-      print("credential: $credential");
-
       final UserCredential userCredential =
           await _auth.signInWithCredential(credential);
 
-      print("userCredential: $userCredential");
       final User? user = userCredential.user;
 
       final DateTime now = DateTime.now();
@@ -60,8 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
           .child(user!.uid)
           .child('lastSignInTime')
           .update({'lastSignInTime': now.toString()});
-
-      print("user: $user");
 
       await _database
           .ref()
@@ -158,63 +153,93 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Center(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    'Welcome Back!',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: AppColors.nearBlack,
-                          fontWeight: FontWeight.bold,
+                  Image.asset(
+                    'assets/images/image.png',
+                    width: MediaQuery.of(context)
+                        .size
+                        .width, // Ekranın tamamını kaplar
+                    height: 150,
+                    fit: BoxFit.cover, // Resmi kapsayacak şekilde kırpar
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 20),
+                        Text(
+                          'MescidGo\' ya Hoş Geldiniz!',
+                          textAlign: TextAlign.center,
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    color: AppColors.nearBlack,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
-                  ),
-                  SizedBox(height: 40),
-                  CustomButton(
-                    text: 'Sign in with Google',
-                    backgroundColor: AppColors.primaryGreen,
-                    textColor: AppColors.primaryBeige,
-                    isLoading: _isLoadingGoogle,
-                    onPressed: _isLoadingGoogle ? null : _signInWithGoogle,
-                  ),
-                  SizedBox(height: 20),
-                  CustomButton(
-                    text: 'Sign in with Apple',
-                    backgroundColor: Colors.black,
-                    textColor: AppColors.primaryBeige,
-                    isLoading: _isLoadingApple,
-                    onPressed: _isLoadingApple ? null : _signInWithApple,
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'or',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.nearBlack),
-                  ),
-                  SizedBox(height: 20),
-                  CustomButton(
-                    text: 'Sign in with Email',
-                    backgroundColor: AppColors.nearBlack,
-                    textColor: AppColors.primaryBeige,
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => EmailScreen()),
-                      );
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  CustomButton(
-                    text: 'Register',
-                    backgroundColor: AppColors.primaryBeige,
-                    textColor: AppColors.nearBlack,
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => RegisterScreen()),
-                      );
-                    },
+                        SizedBox(height: 10),
+                        Text(
+                          'Bugüne kadarki kazalarınızı kolayca hesaplayın. \nHadi başlayalım!',
+                          textAlign: TextAlign.center,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: AppColors.nearBlack,
+                                  ),
+                        ),
+                        SizedBox(height: 40),
+                        CustomButton(
+                          text: 'Sign in with Google',
+                          backgroundColor: AppColors.primaryGreen,
+                          textColor: AppColors.primaryBeige,
+                          isLoading: _isLoadingGoogle,
+                          onPressed:
+                              _isLoadingGoogle ? null : _signInWithGoogle,
+                        ),
+                        SizedBox(height: 20),
+                        CustomButton(
+                          text: 'Sign in with Apple',
+                          backgroundColor: Colors.black,
+                          textColor: AppColors.primaryBeige,
+                          isLoading: _isLoadingApple,
+                          onPressed: _isLoadingApple ? null : _signInWithApple,
+                        ),
+                        SizedBox(height: 20),
+                        Text(
+                          'or',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: AppColors.nearBlack),
+                        ),
+                        SizedBox(height: 20),
+                        CustomButton(
+                          text: 'Sign in with Email',
+                          backgroundColor: AppColors.nearBlack,
+                          textColor: AppColors.primaryBeige,
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => EmailScreen()),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        CustomButton(
+                          text: 'Register',
+                          backgroundColor: AppColors.primaryBeige,
+                          textColor: AppColors.nearBlack,
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => RegisterScreen()),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

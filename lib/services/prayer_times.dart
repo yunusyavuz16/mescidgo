@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../models/prayer_times.dart';
 
 class ApiService {
-  final String baseUrl = 'https://fazilettakvimi.com/api/cms/daily?districtId=31&lang=1';
+  final String baseUrl = dotenv.env['API_URL']!;
 
   Future<PrayerTimes> fetchPrayerTimes() async {
     final response = await http.get(Uri.parse(baseUrl));

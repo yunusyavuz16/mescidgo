@@ -7,8 +7,10 @@ import 'package:mescidgo/features/home/presentation/screens/home_screen.dart';
 import 'package:mescidgo/features/settings/presentation/screens/settings_screen.dart';
 import 'package:mescidgo/features/splash/presentation/splash_screen.dart';
 import 'package:mescidgo/features/userPrayerTimes/presentation/screens/user_prayer_times_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await initializeDateFormatting('tr', null);
