@@ -55,17 +55,29 @@ class _EmailScreenState extends State<EmailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightGrey,
+      backgroundColor: AppColors.nearWhite,
       appBar: CustomAppBar(
-        title: 'Sign in with Email',
+        title: 'E-posta ile Giriş Yap',
         showBackButton: true,
         titleCentered: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: 100),
+            Text(
+              'E-postanızı ve şifrenizi kullanarak giriş yapın',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColors.nearBlack
+              ),
+            ),
+            SizedBox(height: 100),
             TextField(
               controller: _emailController,
               decoration: InputDecoration(

@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:mescidgo/core/constants/colors.dart';
 import 'package:mescidgo/core/constants/prayer_times_enum.dart';
 import 'package:mescidgo/core/constants/styles.dart';
 import 'package:mescidgo/features/home/presentation/widgets/dashed_line.dart';
-import 'package:mescidgo/features/userPrayerTimes/presentation/screens/user_prayer_times_screen.dart';
 
 class PrayerTimesButtons extends StatelessWidget {
   final FirebaseDatabase _database = FirebaseDatabase.instance;
@@ -49,7 +48,7 @@ class PrayerTimesButtons extends StatelessWidget {
     }
   }
 
-  Future<void> _updatePrayerTime(String timeKey, bool isPrayed) async {
+  Future<void> _updatePrayerTime(BuildContext context, String timeKey, bool isPrayed) async {
     try {
       User? user = _auth.currentUser;
       if (user == null) {
@@ -69,6 +68,26 @@ class PrayerTimesButtons extends StatelessWidget {
           .child(todayDateKey);
 
       await userPrayerTimesRef.update({timeKey: isPrayed});
+
+      // Snackbar'ı göster
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Kaydedildi',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white),
+          ),
+          //height: 50.0,
+
+          backgroundColor: Color.fromARGB(108, 3, 4, 6),
+          duration: Duration(seconds: 1), // Mesaj 1 saniye boyunca görünecek
+          behavior: SnackBarBehavior.floating, // Snackbar'ı ekrandan biraz yukarı kaldırır
+          margin: EdgeInsets.symmetric(vertical: 60.0, horizontal: 120.0), // Snackbar'ın bottom'a olan mesafesi
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+        ),
+      );
     } catch (e) {
       print('Error updating prayer time: $e');
     }
@@ -114,7 +133,7 @@ class PrayerTimesButtons extends StatelessWidget {
                   ),
                   TextButton(
                       onPressed: () {
-                         Navigator.pushNamed(context, '/user-prayer-times');
+                        Navigator.pushNamed(context, '/user-prayer-times');
                       },
                       child: Row(
                         children: [
@@ -133,8 +152,7 @@ class PrayerTimesButtons extends StatelessWidget {
                   color: AppColors.primaryGreen,
                   height: 1), // Başlık altına çizgi ekliyoruz
               SizedBox(
-                  height:
-                      10), // Başlık ile butonlar arasında boşluk bırakıyoruz
+                  height: 10), // Başlık ile butonlar arasında boşluk bırakıyoruz
               FutureBuilder(
                 future: _checkAndCreatePrayerTimes(),
                 builder: (context, snapshot) {
@@ -175,18 +193,18 @@ class PrayerTimesButtons extends StatelessWidget {
                             crossAxisSpacing: 12.0,
                             childAspectRatio: 4,
                             children: [
-                              _buildPrayerButton(PrayerTime.sabah.label,
+                              _buildPrayerButton(context, PrayerTime.sabah.label,
                                   data['sabah'], 'sabah', Icons.brightness_5),
-                              _buildPrayerButton(PrayerTime.ogle.label,
+                              _buildPrayerButton(context, PrayerTime.ogle.label,
                                   data['ogle'], 'ogle', Icons.wb_sunny),
-                              _buildPrayerButton(PrayerTime.ikindi.label,
+                              _buildPrayerButton(context, PrayerTime.ikindi.label,
                                   data['ikindi'], 'ikindi', Icons.wb_cloudy),
-                              _buildPrayerButton(
+                              _buildPrayerButton(context,
                                   PrayerTime.aksam.label,
                                   data['aksam'],
                                   'aksam',
                                   Icons.nightlight_round),
-                              _buildPrayerButton(PrayerTime.yatsi.label,
+                              _buildPrayerButton(context, PrayerTime.yatsi.label,
                                   data['yatsi'], 'yatsi', Icons.bedtime),
                             ],
                           ),
@@ -203,7 +221,7 @@ class PrayerTimesButtons extends StatelessWidget {
     );
   }
 
-  Widget _buildPrayerButton(
+  Widget _buildPrayerButton(BuildContext context,
       String timeName, bool? isPrayed, String timeKey, IconData icon) {
     return Container(
       margin: EdgeInsets.all(4.0),
@@ -220,7 +238,7 @@ class PrayerTimesButtons extends StatelessWidget {
         onPressed: () {
           // Toggle the prayer time state
           bool newStatus = !(isPrayed ?? false);
-          _updatePrayerTime(timeKey, newStatus);
+          _updatePrayerTime(context, timeKey, newStatus); // context ekleyin
         },
         style: ElevatedButton.styleFrom(
           backgroundColor:

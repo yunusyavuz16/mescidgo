@@ -71,9 +71,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightGrey,
+      backgroundColor: AppColors.nearWhite,
       appBar: CustomAppBar(
-        title: 'Register',
+        title: 'Kayıt Ol',
         showBackButton: true,
         titleCentered: true,
       ),
@@ -115,7 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             _isLoading
                 ? Center(child: CircularProgressIndicator(color: AppColors.primaryGreen))
                 : CustomButton(
-                    text: 'Register',
+                    text: 'Kayıt Ol',
                     backgroundColor: AppColors.primaryGreen,
                     textColor: AppColors.primaryBeige,
                     onPressed: () async {

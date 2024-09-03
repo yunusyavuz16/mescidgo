@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightGrey,
+      backgroundColor: AppColors.nearWhite,
       body: Stack(
         children: [
           Center(
@@ -193,20 +193,32 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 40),
                         CustomButton(
-                          text: 'Sign in with Google',
-                          backgroundColor: AppColors.primaryGreen,
-                          textColor: AppColors.primaryBeige,
+                          text: 'Google ile Giriş Yap',
+                          backgroundColor: AppColors.primaryBlue,
+                          textColor: AppColors.nearWhite,
                           isLoading: _isLoadingGoogle,
                           onPressed:
                               _isLoadingGoogle ? null : _signInWithGoogle,
                         ),
                         SizedBox(height: 20),
                         CustomButton(
-                          text: 'Sign in with Apple',
+                          text: 'Apple ile Giriş Yap',
                           backgroundColor: Colors.black,
-                          textColor: AppColors.primaryBeige,
+                          textColor: AppColors.nearWhite,
                           isLoading: _isLoadingApple,
                           onPressed: _isLoadingApple ? null : _signInWithApple,
+                        ),
+                        SizedBox(height: 20),
+                        CustomButton(
+                          text: 'E-posta ile Giriş Yap',
+                          backgroundColor: AppColors.primaryGreen,
+                          textColor: AppColors.nearWhite,
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => EmailScreen()),
+                            );
+                          },
                         ),
                         SizedBox(height: 20),
                         Text(
@@ -216,21 +228,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 20),
                         CustomButton(
-                          text: 'Sign in with Email',
-                          backgroundColor: AppColors.nearBlack,
-                          textColor: AppColors.primaryBeige,
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => EmailScreen()),
-                            );
-                          },
-                        ),
-                        SizedBox(height: 20),
-                        CustomButton(
-                          text: 'Register',
-                          backgroundColor: AppColors.primaryBeige,
-                          textColor: AppColors.nearBlack,
+                          borderColors: AppColors.primaryGreen,
+                          text: 'Kayıt Ol',
+                          backgroundColor: AppColors.nearWhite,
+                          textColor: AppColors.primaryGreen,
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(

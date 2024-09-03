@@ -5,12 +5,15 @@ class CustomButton extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final VoidCallback? onPressed;
+  final Color? borderColors; // Yeni özellik
   final bool isLoading; // Yeni özellik
 
   const CustomButton({
     required this.text,
     required this.backgroundColor,
     required this.textColor,
+    // borderColors: borderColors ?? backgroundColor,
+    this.borderColors,
     this.onPressed,
     this.isLoading = false, // Varsayılan olarak false
   });
@@ -20,10 +23,12 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
+        // bordering
         foregroundColor: textColor,
         minimumSize: Size(double.infinity, 50),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
+          side: BorderSide(color: borderColors ?? backgroundColor, width: 2),
         ),
       ),
       onPressed: isLoading ? null : onPressed,
@@ -37,13 +42,13 @@ class CustomButton extends StatelessWidget {
                 SizedBox(width: 20),
                 Text(
                   text,
-                  style: TextStyle(color: textColor, fontSize: 16),
+                  style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             )
           : Text(
               text,
-              style: TextStyle(color: textColor, fontSize: 16),
+              style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold),
             ),
     );
   }
