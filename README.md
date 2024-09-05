@@ -1,16 +1,7 @@
 # mescidgo
 
-A new Flutter project.
+A Flutter project with google-sign-in, apple-sign-in, firebase-authentication, firebase-realtime-database and flutter-dotenv.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project is a starting point for an application that calculates missed prayers and displays the prayet time in Istanbul.
