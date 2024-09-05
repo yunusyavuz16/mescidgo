@@ -1,4 +1,4 @@
-# mescidgo
+# Mescid Go
 
 A Flutter project with google-sign-in, apple-sign-in, firebase-authentication, firebase-realtime-database and flutter-dotenv.
 
