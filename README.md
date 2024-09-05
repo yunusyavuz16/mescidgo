@@ -4,4 +4,4 @@ A Flutter project with google-sign-in, apple-sign-in, firebase-authentication, f
 
 ## Getting Started
 
-This project is a starting point for an application that calculates missed prayers and displays the prayet time in Istanbul.
+This project is a starting point for an application that calculates missed prayers and displays the prayer time in Istanbul.
