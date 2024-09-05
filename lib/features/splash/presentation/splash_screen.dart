@@ -30,7 +30,7 @@ void _navigateToLogin() async {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset('assets/images/splash_logo.png'),
+            Image.asset('assets/images/image.png'),
             SizedBox(height: 20),
             CircularProgressIndicator(),
           ],

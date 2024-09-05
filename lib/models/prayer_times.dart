@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:mescidgo/core/constants/prayer_times_enum.dart';
 
 class PrayerTimes {
   final String imsak;
@@ -48,5 +49,24 @@ class PrayerTimes {
 
     // Format and return the adjusted time
     return adjustedFormat.format(dateTime);
+  }
+
+  String getTime(PrayerTime prayerTime) {
+    switch (prayerTime) {
+      case PrayerTime.imsak:
+        return imsak;
+      case PrayerTime.sabah:
+        return sabah;
+      case PrayerTime.gunes:
+        return gunes;
+      case PrayerTime.ogle:
+        return ogle;
+      case PrayerTime.ikindi:
+        return ikindi;
+      case PrayerTime.aksam:
+        return aksam;
+      case PrayerTime.yatsi:
+        return yatsi;
+    }
   }
 }

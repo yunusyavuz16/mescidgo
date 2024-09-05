@@ -1,26 +1,20 @@
-import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mescidgo/core/constants/colors.dart';
 import 'package:mescidgo/core/widgets/custom_loading_overlay.dart';
 import 'package:mescidgo/features/auth/presentation/screens/email_screen.dart';
-import 'package:mescidgo/features/auth/presentation/screens/register_screen.dart';
+import 'package:mescidgo/features/auth/presentation/widgets/auth_service.dart';
 import 'package:mescidgo/features/auth/presentation/widgets/custom_button.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseDatabase _database = FirebaseDatabase.instance;
-
+  final AuthService authService = AuthService();
   bool _isLoadingGoogle = false;
   bool _isLoadingApple = false;
 
@@ -30,57 +24,11 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-
-      if (googleUser == null) {
-        return;
+      final User? user = await authService.signInWithGoogle();
+      if (user != null) {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home', (route) => false);
       }
-
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      final UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
-
-      final User? user = userCredential.user;
-
-      final DateTime now = DateTime.now();
-
-      await _database
-          .ref()
-          .child('users')
-          .child(user!.uid)
-          .child('lastSignInTime')
-          .update({'lastSignInTime': now.toString()});
-
-      await _database
-          .ref()
-          .child('users')
-          .child(user.uid)
-          .child('email')
-          .set(user.email);
-
-      await _database
-          .ref()
-          .child('users')
-          .child(user.uid)
-          .child('name')
-          .set(user.displayName!.split(' ')[0]);
-
-      await _database
-          .ref()
-          .child('users')
-          .child(user.uid)
-          .child('surname')
-          .set(user.displayName!.split(' ')[1]);
-
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
     } catch (e) {
       _showErrorDialog('Google Sign-In failed: $e');
     } finally {
@@ -96,25 +44,10 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
-
-      final oauthCredential = OAuthProvider("apple.com").credential(
-        idToken: appleCredential.identityToken,
-        accessToken: appleCredential.authorizationCode,
-      );
-
-      final UserCredential userCredential =
-          await _auth.signInWithCredential(oauthCredential);
-      final User? user = userCredential.user;
-
+      final User? user = await authService.signInWithApple();
       if (user != null) {
         Navigator.of(context)
-            .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+            .pushNamedAndRemoveUntil('/home', (route) => false);
       }
     } catch (e) {
       _showErrorDialog('Apple Sign-In failed: $e');
@@ -151,101 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: AppColors.nearWhite,
       body: Stack(
         children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Image.asset(
-                    'assets/images/image.png',
-                    width: MediaQuery.of(context)
-                        .size
-                        .width, // Ekranın tamamını kaplar
-                    height: 150,
-                    fit: BoxFit.cover, // Resmi kapsayacak şekilde kırpar
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 20),
-                        Text(
-                          'MescidGo\' ya Hoş Geldiniz!',
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    color: AppColors.nearBlack,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Bugüne kadarki kazalarınızı kolayca hesaplayın. \nHadi başlayalım!',
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: AppColors.nearBlack,
-                                  ),
-                        ),
-                        SizedBox(height: 40),
-                        CustomButton(
-                          text: 'Google ile Giriş Yap',
-                          backgroundColor: AppColors.primaryBlue,
-                          textColor: AppColors.nearWhite,
-                          isLoading: _isLoadingGoogle,
-                          onPressed:
-                              _isLoadingGoogle ? null : _signInWithGoogle,
-                        ),
-                        SizedBox(height: 20),
-                        CustomButton(
-                          text: 'Apple ile Giriş Yap',
-                          backgroundColor: Colors.black,
-                          textColor: AppColors.nearWhite,
-                          isLoading: _isLoadingApple,
-                          onPressed: _isLoadingApple ? null : _signInWithApple,
-                        ),
-                        SizedBox(height: 20),
-                        CustomButton(
-                          text: 'E-posta ile Giriş Yap',
-                          backgroundColor: AppColors.primaryGreen,
-                          textColor: AppColors.nearWhite,
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => EmailScreen()),
-                            );
-                          },
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          'or',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: AppColors.nearBlack),
-                        ),
-                        SizedBox(height: 20),
-                        CustomButton(
-                          borderColors: AppColors.primaryGreen,
-                          text: 'Kayıt Ol',
-                          backgroundColor: AppColors.nearWhite,
-                          textColor: AppColors.primaryGreen,
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => RegisterScreen()),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          _buildLoginContent(),
           CustomLoadingOverlay(
             isLoading: _isLoadingGoogle || _isLoadingApple,
             message: _isLoadingGoogle
@@ -254,6 +93,114 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildLoginContent() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Image.asset(
+              'assets/images/image.png',
+              width: MediaQuery.of(context).size.width,
+              height: 150,
+              fit: BoxFit.cover,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 20),
+                  Text(
+                    'MescidGo\' ya Hoş Geldiniz!',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: AppColors.nearBlack,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Bugüne kadarki kazalarınızı kolayca hesaplayın. \nHadi başlayalım!',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppColors.nearBlack,
+                        ),
+                  ),
+                  SizedBox(height: 40),
+                  _buildAuthButton(
+                    text: 'Google ile Giriş Yap',
+                    backgroundColor: AppColors.primaryBlue,
+                    textColor: AppColors.nearWhite,
+                    isLoading: _isLoadingGoogle,
+                    onPressed: _isLoadingGoogle ? null : _signInWithGoogle,
+                  ),
+                  SizedBox(height: 20),
+                  _buildAuthButton(
+                    text: 'Apple ile Giriş Yap',
+                    backgroundColor: Colors.black,
+                    textColor: AppColors.nearWhite,
+                    isLoading: _isLoadingApple,
+                    onPressed: _isLoadingApple ? null : _signInWithApple,
+                  ),
+                  SizedBox(height: 20),
+                  _buildAuthButton(
+                    text: 'E-posta ile Giriş Yap',
+                    backgroundColor: AppColors.primaryGreen,
+                    textColor: AppColors.nearWhite,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => EmailScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'or',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: AppColors.nearBlack),
+                  ),
+                  SizedBox(height: 20),
+                  _buildAuthButton(
+                    text: 'Kayıt Ol',
+                    backgroundColor: AppColors.nearWhite,
+                    textColor: AppColors.primaryGreen,
+                    borderColor: AppColors.primaryGreen,
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/register');
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAuthButton({
+    required String text,
+    required Color backgroundColor,
+    required Color textColor,
+    Color? borderColor,
+    required VoidCallback? onPressed,
+    bool isLoading = false,
+  }) {
+    return CustomButton(
+      text: text,
+      backgroundColor: backgroundColor,
+      textColor: textColor,
+      borderColors: borderColor,
+      isLoading: isLoading,
+      onPressed: onPressed,
     );
   }
 }
