@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mescidgo/core/constants/colors.dart';
-import 'package:mescidgo/core/constants/styles.dart';
-import 'package:mescidgo/core/services/permission_service.dart';
 import 'package:mescidgo/core/utils/navigation.dart';
 import 'package:mescidgo/core/widgets/custom_app_bar.dart';
 import 'package:mescidgo/features/auth/presentation/widgets/auth_service.dart';
+import 'package:mescidgo/features/auth/presentation/widgets/custom_button.dart';
+import 'package:mescidgo/features/settings/presentation/widgets/language_switch.dart';
+import 'package:mescidgo/l10n/app_localizations.dart';
+import 'package:mescidgo/l10n/locale_provider.dart';
 import 'package:package_info/package_info.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -13,16 +17,18 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  bool _isTurkish = false;
+  bool _locationPermissionGranted = false;
+  bool _notificationPermissionGranted = false;
+  // get app version from packag einfo
+  String _appVersion = "";
   final AuthService _authService = AuthService();
-  final PermissionService _permissionService = PermissionService();
-  String _appVersion = '';
-  bool _locationPermissionEnabled = false;
-  bool _notificationPermissionEnabled = false;
 
   @override
   void initState() {
     super.initState();
     _loadAppVersion();
+    _checkPermissions();
   }
 
   Future<void> _loadAppVersion() async {
@@ -32,105 +38,123 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
+  Future<void> _checkPermissions() async {
+    _locationPermissionGranted = await Permission.location.isGranted;
+    _notificationPermissionGranted = await Permission.notification.isGranted;
+    setState(() {});
+  }
+
+  void _toggleLanguage(bool isTurkish) {
+    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+    setState(() {
+      _isTurkish = isTurkish;
+      localeProvider.setLocale(Locale(isTurkish ? 'tr' : 'en'));
+    });
+  }
+
   Future<void> _requestLocationPermission() async {
-    try {
-      await _permissionService.requestLocationPermission();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Location permission error: $e')),
-      );
-    }
+    PermissionStatus status = await Permission.location.request();
+    setState(() {
+      _locationPermissionGranted = status.isGranted;
+    });
   }
 
   Future<void> _requestNotificationPermission() async {
-    try {
-      await _permissionService.requestNotificationPermission();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Notification permission error: $e')),
-      );
-    }
+    PermissionStatus status = await Permission.notification.request();
+    setState(() {
+      _notificationPermissionGranted = status.isGranted;
+    });
   }
 
   Future<void> _signOut(BuildContext context) async {
-    try {
-      await _authService.signOut();
-      NavigationUtil.replaceWithNamed(context, '/login');
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Sign out failed: $e')),
-      );
-    }
+    // Çıkış yapma fonksiyonunu buraya ekleyebilirsiniz.
+    // Örneğin:
+    await _authService.signOut();
+    NavigationUtil.replaceWithNamed(context, '/login');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-          title: 'Settings', showBackButton: true, titleCentered: true),
+        title: AppLocalizations.of(context).translate('settingsTitle'),
+        showBackButton: true,
+        titleCentered: true,
+      ),
       body: Padding(
+
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
+            // Konum İzni Switch
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SwitchListTile(
-                  title: Text('Enable Location Permission'),
-                  value: _locationPermissionEnabled,
-                  activeColor: AppColors.primaryGreen,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _locationPermissionEnabled = value;
-                    });
-                    if (value) {
-                      _requestLocationPermission();
+                Text(
+                  AppLocalizations.of(context).translate('locationPermission'),
+                  style: TextStyle(fontSize: 18),
+                ),
+                Switch(
+                  value: _locationPermissionGranted,
+                  onChanged: (bool value) async {
+                    if (!value) {
+                      await _requestLocationPermission();
                     }
                   },
                 ),
-                SwitchListTile(
-                  title: Text('Enable Notification Permission'),
-                  value: _notificationPermissionEnabled,
-                  activeColor: AppColors.primaryGreen,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _notificationPermissionEnabled = value;
-                    });
-                    if (value) {
-                      _requestNotificationPermission();
-                    }
-                  },
-                ),
-                SizedBox(height: 40),
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            SizedBox(height: 20),
+
+            // Bildirim İzni Switch
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryGreen,
-                    padding: EdgeInsets.symmetric(vertical: 15.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: Styles.defaultBorderRadius,
-                    ),
-                  ),
-                  onPressed: () => _signOut(context),
-                  child: Text(
-                    'Sign Out',
-                    style:
-                        Styles.bodyTextStyle.copyWith(color: AppColors.white),
-                  ),
+                Text(
+                  AppLocalizations.of(context)
+                      .translate('notificationPermission'),
+                  style: TextStyle(fontSize: 18),
                 ),
-                SizedBox(height: 20),
-                Center(
-                  child: Text(
-                    'App Version: $_appVersion',
-                    style: Styles.bodyTextStyle,
-                  ),
+                Switch(
+                  value: _notificationPermissionGranted,
+                  onChanged: (bool value) async {
+                    if (!value) {
+                      await _requestNotificationPermission();
+                    }
+                  },
                 ),
               ],
+            ),
+            SizedBox(height: 40),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Dil Seçici Switch
+                LanguageSwitch(
+                  isTurkish: _isTurkish,
+                  onToggle: _toggleLanguage,
+                ),
+              ],
+            ),
+            SizedBox(height: 40),
+            // Çıkış Yap Butonu
+            CustomButton(
+              onPressed: () => _signOut(context),
+              text: AppLocalizations.of(context).translate('signOut'),
+              borderColors: AppColors.primaryRed,
+              backgroundColor: AppColors.nearWhite,
+              textColor: AppColors.primaryRed,
+            ),
+            SizedBox(height: 20),
+
+            // Uygulama Versiyonu
+            Center(
+              child: Text(
+                '${AppLocalizations.of(context).translate('appVersion')}: $_appVersion',
+                style: TextStyle(fontSize: 16),
+              ),
             ),
           ],
         ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-
-  static const Color primaryGreen = Color.fromRGBO(15, 149, 101, 1); // Orta Yeşil; // Yeşil tonları
+  static const Color primaryGreen =
+      Color.fromRGBO(15, 149, 101, 1); // Orta Yeşil; // Yeşil tonları
+  static const Color primaryRed =
+      Color.fromRGBO(149, 15, 51, 1); // Uyumlu kırmızı tonu
   static const Color primaryBlue = Color(0xFF1E90FF); // Mavi tonları
   static const Color primaryBeige = Color(0xFFF5F5DC); // Bej tonları
   static const Color nearBlack = Color(0xFF1A1A1A); // Siyaha yakın ton

@@ -1,0 +1,10 @@
+{
+    "helloWorld": "Hello World",
+    "welcome": "Welcome to our app!",
+    "settingsTitle": "Settings",
+    "signOut": "Logout",
+    "appVersion": "App Version",
+    "selectLanguage": "Select Language",
+    "notificationPermission": "Permission to Notification",
+    "locationPermission": "Permission to Location"
+  }

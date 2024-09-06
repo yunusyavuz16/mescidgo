@@ -1,0 +1,10 @@
+{
+  "helloWorld": "Hola Mundo",
+  "welcome": "¡Bienvenido a nuestra aplicación!",
+  "settingsTitle": "Ayarlar",
+  "signOut": "Çıkış Yap",
+  "appVersion": "Uygulama Sürümü",
+  "selectLanguage": "Dil Seç",
+  "notificationPermission": "Bildirimlere İzin Ver",
+  "locationPermission": "Konum Almaya İzin Ver"
+}
