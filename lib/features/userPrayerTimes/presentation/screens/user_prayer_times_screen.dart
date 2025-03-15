@@ -16,10 +16,6 @@ class _UserPrayerTimesScreenState extends State<UserPrayerTimesScreen> {
 
   Map<String, Map<String, bool>> prayerTimes = {};
 
-  DateTime _stringToDateTime(String dateString) {
-    return DateTime.parse(dateString);
-  }
-
   String _dateTimeToString(DateTime dateTime) {
     return dateTime.toIso8601String().split('T').first;
   }

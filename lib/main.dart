@@ -16,6 +16,7 @@ import 'package:mescid_go/features/userPrayerTimes/presentation/screens/user_pra
 import 'package:mescid_go/l10n/locale_provider.dart';
 import 'package:mescid_go/services/prayer_time_buttons.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import 'l10n/app_localizations.dart'; // Import your generated localization class
 
@@ -25,19 +26,24 @@ void main() async {
   await Firebase.initializeApp();
   await initializeDateFormatting('tr', null);
 
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => LocaleProvider()),
-        Provider<ApiService>(create: (_) => ApiService()),
-        Provider<PrayerTimeChecker>(create: (_) => PrayerTimeChecker()),
-        Provider<AuthService>(create: (_) => AuthService()),
-        Provider<PrayerTimeService>(create: (_) => PrayerTimeService()),
-      ],
-      child: MyApp(),
-    ),
-  );
+  // Lock the entire app orientation to Portrait mode
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => LocaleProvider()),
+          Provider<ApiService>(create: (_) => ApiService()),
+          Provider<PrayerTimeChecker>(create: (_) => PrayerTimeChecker()),
+          Provider<AuthService>(create: (_) => AuthService()),
+          Provider<PrayerTimeService>(create: (_) => PrayerTimeService()),
+        ],
+        child: MyApp(),
+      ),
+    );
+  });
 }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
