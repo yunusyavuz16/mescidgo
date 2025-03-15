@@ -8,3 +8,14 @@ A Flutter project with google-sign-in, apple-sign-in, firebase-authentication, f
 ## Getting Started
 
 This project is a starting point for an application that calculates missed prayers and displays the prayer time in Istanbul.
+
+## To Run Device
+
+```
+flutter run -d ios && flutter run -d android
+```
+
+## To Run Device
+```
+flutter run -d device-name or device-id
+```
