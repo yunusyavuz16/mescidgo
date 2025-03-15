@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
-import 'package:mescidgo/models/prayer_times.dart';
-import 'package:mescidgo/core/constants/prayer_times_enum.dart';
+import 'package:mescid_go/models/prayer_times.dart';
+import 'package:mescid_go/core/constants/prayer_times_enum.dart';
 
 class PrayerTimeChecker {
   bool isCurrentPrayerTime(PrayerTimes prayerTimes, PrayerTime prayerTime) {

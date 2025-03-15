@@ -1,4 +1,4 @@
-name: mescidgo
+name: mescid_go
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.5.1
+  sdk: ^3.7.2
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,29 +31,27 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
   firebase_core: ^3.4.0
   firebase_auth: ^5.2.0
+  firebase_database: ^11.1.0
   cloud_firestore: ^5.3.0
-  firebase_messaging: ^15.1.0
+  firebase_messaging: ^15.2.4
   geolocator: ^13.0.2
   adhan_dart: ^1.1.2
   flutter_local_notifications: ^18.0.1
   provider: ^6.1.2
   intl: ^0.19.0
   fluttertoast: ^8.1.1
-  google_sign_in: ^6.2.1
-  http: ^1.2.2
-  sign_in_with_apple: ^6.1.2
-  firebase_database: ^11.1.0
+  google_sign_in: ^6.3.0
+  sign_in_with_apple: 6.1.2
+  http: ^1.3.0
   font_awesome_flutter: ^10.7.0
   table_calendar: ^3.1.2
   flutter_dotenv: ^5.1.0
   permission_handler: ^11.3.1
-  package_info: ^2.0.2
+  package_info_plus: ^8.0.0
   flutter_localizations:
     sdk: flutter
 

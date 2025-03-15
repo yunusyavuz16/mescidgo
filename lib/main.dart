@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:mescidgo/core/utils/prayer_time_checker.dart';
-import 'package:mescidgo/features/auth/presentation/screens/login_screen.dart';
-import 'package:mescidgo/features/auth/presentation/screens/register_screen.dart';
-import 'package:mescidgo/features/auth/presentation/widgets/auth_service.dart';
-import 'package:mescidgo/features/home/presentation/screens/home_screen.dart';
-import 'package:mescidgo/features/settings/presentation/screens/settings_screen.dart';
-import 'package:mescidgo/features/splash/presentation/splash_screen.dart';
-import 'package:mescidgo/features/userPrayerTimes/presentation/screens/user_prayer_times_screen.dart';
-import 'package:mescidgo/l10n/locale_provider.dart';
-import 'package:mescidgo/services/prayer_time_buttons.dart';
-import 'package:mescidgo/services/prayer_times.dart';
+import 'package:mescid_go/services/prayer_times.dart';
+import 'package:mescid_go/core/utils/prayer_time_checker.dart';
+import 'package:mescid_go/features/auth/presentation/screens/login_screen.dart';
+import 'package:mescid_go/features/auth/presentation/screens/register_screen.dart';
+import 'package:mescid_go/features/auth/presentation/widgets/auth_service.dart';
+import 'package:mescid_go/features/home/presentation/screens/home_screen.dart';
+import 'package:mescid_go/features/settings/presentation/screens/settings_screen.dart';
+import 'package:mescid_go/features/splash/presentation/splash_screen.dart';
+import 'package:mescid_go/features/userPrayerTimes/presentation/screens/user_prayer_times_screen.dart';
+import 'package:mescid_go/l10n/locale_provider.dart';
+import 'package:mescid_go/services/prayer_time_buttons.dart';
 import 'package:provider/provider.dart';
 
 import 'l10n/app_localizations.dart'; // Import your generated localization class

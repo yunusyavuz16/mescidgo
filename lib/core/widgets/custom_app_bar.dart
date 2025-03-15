@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mescidgo/core/constants/colors.dart';
-import 'package:mescidgo/core/constants/styles.dart';
+import 'package:mescid_go/core/constants/colors.dart';
+import 'package:mescid_go/core/constants/styles.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;

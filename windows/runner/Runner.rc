@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "mescidgo" "\0"
+            VALUE "CompanyName", "com.mescidgo" "\0"
+            VALUE "FileDescription", "mescid_go" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "mescidgo" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "mescidgo.exe" "\0"
-            VALUE "ProductName", "mescidgo" "\0"
+            VALUE "InternalName", "mescid_go" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 com.mescidgo. All rights reserved." "\0"
+            VALUE "OriginalFilename", "mescid_go.exe" "\0"
+            VALUE "ProductName", "mescid_go" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

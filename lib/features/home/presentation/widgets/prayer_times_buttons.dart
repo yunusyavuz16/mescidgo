@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:mescidgo/core/constants/colors.dart';
-import 'package:mescidgo/core/constants/prayer_times_enum.dart';
-import 'package:mescidgo/core/constants/styles.dart';
-import 'package:mescidgo/features/home/presentation/widgets/dashed_line.dart';
-import 'package:mescidgo/services/prayer_time_buttons.dart';
+import 'package:mescid_go/core/constants/colors.dart';
+import 'package:mescid_go/core/constants/prayer_times_enum.dart';
+import 'package:mescid_go/core/constants/styles.dart';
+import 'package:mescid_go/features/home/presentation/widgets/dashed_line.dart';
+import 'package:mescid_go/services/prayer_time_buttons.dart';
 import 'package:provider/provider.dart';
-import 'package:mescidgo/core/widgets/snackbar_helper.dart';
+import 'package:mescid_go/core/widgets/snackbar_helper.dart';
 
 class PrayerTimesButtons extends StatelessWidget {
   @override

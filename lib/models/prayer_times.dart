@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:mescidgo/core/constants/prayer_times_enum.dart';
+import 'package:mescid_go/core/constants/prayer_times_enum.dart';
 
 class PrayerTimes {
   final String imsak;

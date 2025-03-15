@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mescidgo/core/constants/colors.dart';
-import 'package:mescidgo/core/utils/navigation.dart';
-import 'package:mescidgo/core/widgets/custom_app_bar.dart';
-import 'package:mescidgo/features/auth/presentation/widgets/auth_service.dart';
-import 'package:mescidgo/features/auth/presentation/widgets/custom_button.dart';
-import 'package:mescidgo/features/settings/presentation/widgets/language_switch.dart';
-import 'package:mescidgo/l10n/app_localizations.dart';
-import 'package:mescidgo/l10n/locale_provider.dart';
-import 'package:package_info/package_info.dart';
+import 'package:mescid_go/core/constants/colors.dart';
+import 'package:mescid_go/core/utils/navigation.dart';
+import 'package:mescid_go/core/widgets/custom_app_bar.dart';
+import 'package:mescid_go/features/auth/presentation/widgets/auth_service.dart';
+import 'package:mescid_go/features/auth/presentation/widgets/custom_button.dart';
+import 'package:mescid_go/features/settings/presentation/widgets/language_switch.dart';
+import 'package:mescid_go/l10n/app_localizations.dart';
+import 'package:mescid_go/l10n/locale_provider.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +20,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _isTurkish = false;
   bool _locationPermissionGranted = false;
   bool _notificationPermissionGranted = false;
-  // get app version from packag einfo
   String _appVersion = "";
   final AuthService _authService = AuthService();
 
@@ -67,8 +66,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _signOut(BuildContext context) async {
-    // Çıkış yapma fonksiyonunu buraya ekleyebilirsiniz.
-    // Örneğin:
     await _authService.signOut();
     NavigationUtil.replaceWithNamed(context, '/login');
   }
@@ -82,12 +79,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
         titleCentered: true,
       ),
       body: Padding(
-
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Konum İzni Switch
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -106,14 +101,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
             SizedBox(height: 20),
-
-            // Bildirim İzni Switch
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context)
-                      .translate('notificationPermission'),
+                  AppLocalizations.of(context).translate('notificationPermission'),
                   style: TextStyle(fontSize: 18),
                 ),
                 Switch(
@@ -131,7 +123,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Dil Seçici Switch
                 LanguageSwitch(
                   isTurkish: _isTurkish,
                   onToggle: _toggleLanguage,
@@ -139,7 +130,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
             SizedBox(height: 40),
-            // Çıkış Yap Butonu
             CustomButton(
               onPressed: () => _signOut(context),
               text: AppLocalizations.of(context).translate('signOut'),
@@ -148,8 +138,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               textColor: AppColors.primaryRed,
             ),
             SizedBox(height: 20),
-
-            // Uygulama Versiyonu
             Center(
               child: Text(
                 '${AppLocalizations.of(context).translate('appVersion')}: $_appVersion',

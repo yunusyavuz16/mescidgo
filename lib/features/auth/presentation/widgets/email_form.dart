@@ -1,6 +1,6 @@
 // lib/features/auth/presentation/widgets/email_form.dart
 import 'package:flutter/material.dart';
-import 'package:mescidgo/features/auth/presentation/viewmodels/email_sign_in_viewmodel.dart';
+import 'package:mescid_go/features/auth/presentation/viewmodels/email_sign_in_viewmodel.dart';
 
 class EmailForm extends StatelessWidget {
   final EmailSignInViewModel viewModel;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mescidgo/core/constants/colors.dart';
-import 'package:mescidgo/core/constants/styles.dart';
+import 'package:mescid_go/core/constants/colors.dart';
+import 'package:mescid_go/core/constants/styles.dart';
 
 class PrayerTimeItem extends StatelessWidget {
   final String timeName;

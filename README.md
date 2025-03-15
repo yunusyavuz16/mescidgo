@@ -1,21 +1,16 @@
-# Mescid Go
+# mescid_go
 
-- **Supported iOS versions:** 13.4+
-- **Supported Android versions:** 7.0+
-
-A Flutter project with google-sign-in, apple-sign-in, firebase-authentication, firebase-realtime-database, provider, localization and flutter-dotenv.
+A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for an application that calculates missed prayers and displays the prayer time in Istanbul.
+This project is a starting point for a Flutter application.
 
-## To Run Device
+A few resources to get you started if this is your first Flutter project:
 
-```
-flutter run -d ios && flutter run -d android
-```
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-## To Run Device
-```
-flutter run -d device-name or device-id
-```
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.

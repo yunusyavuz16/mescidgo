@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mescidgo/core/constants/colors.dart';
-import 'package:mescidgo/core/widgets/custom_app_bar.dart';
-import 'package:mescidgo/features/auth/presentation/viewmodels/email_sign_in_viewmodel.dart';
-import 'package:mescidgo/features/auth/presentation/widgets/custom_button.dart';
-import 'package:mescidgo/features/auth/presentation/widgets/email_form.dart';
+import 'package:mescid_go/core/constants/colors.dart';
+import 'package:mescid_go/core/widgets/custom_app_bar.dart';
+import 'package:mescid_go/features/auth/presentation/viewmodels/email_sign_in_viewmodel.dart';
+import 'package:mescid_go/features/auth/presentation/widgets/custom_button.dart';
+import 'package:mescid_go/features/auth/presentation/widgets/email_form.dart';
 
 class EmailScreen extends StatelessWidget {
   final EmailSignInViewModel _viewModel = EmailSignInViewModel();

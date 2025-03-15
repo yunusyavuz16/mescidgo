@@ -1,6 +1,6 @@
 {
-    "name": "mescidgo",
-    "short_name": "mescidgo",
+    "name": "mescid_go",
+    "short_name": "mescid_go",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

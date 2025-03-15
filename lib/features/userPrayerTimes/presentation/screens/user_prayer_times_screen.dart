@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mescidgo/core/constants/colors.dart';
-import 'package:mescidgo/core/constants/prayer_times_enum.dart';
-import 'package:mescidgo/core/widgets/custom_app_bar.dart';
+import 'package:mescid_go/core/constants/colors.dart';
+import 'package:mescid_go/core/constants/prayer_times_enum.dart';
+import 'package:mescid_go/core/widgets/custom_app_bar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class UserPrayerTimesScreen extends StatefulWidget {

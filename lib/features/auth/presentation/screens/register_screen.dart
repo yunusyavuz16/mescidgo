@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:mescidgo/core/constants/colors.dart';
-import 'package:mescidgo/core/widgets/custom_app_bar.dart';
-import 'package:mescidgo/features/auth/domain/validators/auth_validators.dart';
-import 'package:mescidgo/features/auth/presentation/widgets/custom_button.dart';
+import 'package:mescid_go/core/constants/colors.dart';
+import 'package:mescid_go/core/widgets/custom_app_bar.dart';
+import 'package:mescid_go/features/auth/domain/validators/auth_validators.dart';
+import 'package:mescid_go/features/auth/presentation/widgets/custom_button.dart';
 
 class RegisterScreen extends StatefulWidget {
 

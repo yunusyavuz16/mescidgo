@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mescidgo/core/constants/colors.dart';
-import 'package:mescidgo/core/widgets/custom_loading_overlay.dart';
-import 'package:mescidgo/features/auth/presentation/screens/email_screen.dart';
-import 'package:mescidgo/features/auth/presentation/widgets/auth_service.dart';
-import 'package:mescidgo/features/auth/presentation/widgets/custom_button.dart';
+import 'package:mescid_go/core/constants/colors.dart';
+import 'package:mescid_go/core/widgets/custom_loading_overlay.dart';
+import 'package:mescid_go/features/auth/presentation/screens/email_screen.dart';
+import 'package:mescid_go/features/auth/presentation/widgets/auth_service.dart';
+import 'package:mescid_go/features/auth/presentation/widgets/custom_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

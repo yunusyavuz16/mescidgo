@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mescidgo/core/constants/colors.dart';
+import 'package:mescid_go/core/constants/colors.dart';
 
 class Styles {
   static const TextStyle titleTextStyle = TextStyle(

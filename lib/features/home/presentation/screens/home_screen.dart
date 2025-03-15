@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mescidgo/core/constants/colors.dart';
-import 'package:mescidgo/core/constants/prayer_times_enum.dart';
-import 'package:mescidgo/core/constants/styles.dart';
-import 'package:mescidgo/core/utils/prayer_time_checker.dart';
-import 'package:mescidgo/features/home/presentation/widgets/dashed_line.dart';
-import 'package:mescidgo/features/home/presentation/widgets/prayer_time_item.dart';
-import 'package:mescidgo/features/home/presentation/widgets/prayer_times_buttons.dart';
-import 'package:mescidgo/models/prayer_times.dart';
-import 'package:mescidgo/services/prayer_times.dart';
+import 'package:mescid_go/core/constants/colors.dart';
+import 'package:mescid_go/core/constants/prayer_times_enum.dart';
+import 'package:mescid_go/core/constants/styles.dart';
+import 'package:mescid_go/core/utils/prayer_time_checker.dart';
+import 'package:mescid_go/features/home/presentation/widgets/dashed_line.dart';
+import 'package:mescid_go/features/home/presentation/widgets/prayer_time_item.dart';
+import 'package:mescid_go/features/home/presentation/widgets/prayer_times_buttons.dart';
+import 'package:mescid_go/models/prayer_times.dart';
+import 'package:mescid_go/services/prayer_times.dart';
 import 'package:provider/provider.dart'; // Provider için gerekli import
 
 class HomeScreen extends StatelessWidget {
