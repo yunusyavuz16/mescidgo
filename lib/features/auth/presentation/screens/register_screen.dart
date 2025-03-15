@@ -7,10 +7,7 @@ import 'package:mescid_go/features/auth/domain/validators/auth_validators.dart';
 import 'package:mescid_go/features/auth/presentation/widgets/custom_button.dart';
 
 class RegisterScreen extends StatefulWidget {
-
-  const RegisterScreen({
-    Key? key,
-  }) : super(key: key);
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -21,7 +18,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseDatabase _database = FirebaseDatabase.instance;
@@ -62,10 +60,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     try {
-      final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      final UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
 
       final User? user = userCredential.user;
       if (user != null) {
@@ -75,7 +71,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           'email': email,
         });
 
-        Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+        Navigator.of(
+          context,
+        ).pushNamedAndRemoveUntil('/home', (route) => false);
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -104,28 +102,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             _buildTextField(_nameController, 'Name'),
             _buildTextField(_surnameController, 'Surname'),
-            _buildTextField(_emailController, 'Email', keyboardType: TextInputType.emailAddress),
+            _buildTextField(
+              _emailController,
+              'Email',
+              keyboardType: TextInputType.emailAddress,
+            ),
             _buildTextField(_passwordController, 'Password', obscureText: true),
-            _buildTextField(_confirmPasswordController, 'Confirm Password', obscureText: true),
+            _buildTextField(
+              _confirmPasswordController,
+              'Confirm Password',
+              obscureText: true,
+            ),
             SizedBox(height: 20),
             if (_errorMessage != null)
               Text(_errorMessage!, style: TextStyle(color: Colors.red)),
             SizedBox(height: 20),
             _isLoading
-                ? Center(child: CircularProgressIndicator(color: AppColors.primaryGreen))
-                : CustomButton(
-                    text: 'Kayıt Ol',
-                    backgroundColor: AppColors.primaryGreen,
-                    textColor: AppColors.primaryBeige,
-                    onPressed: _register,
+                ? Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primaryGreen,
                   ),
+                )
+                : CustomButton(
+                  text: 'Kayıt Ol',
+                  backgroundColor: AppColors.primaryGreen,
+                  textColor: AppColors.primaryBeige,
+                  onPressed: _register,
+                ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String label, {bool obscureText = false, TextInputType keyboardType = TextInputType.text}) {
+  Widget _buildTextField(
+    TextEditingController controller,
+    String label, {
+    bool obscureText = false,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: TextField(
@@ -133,6 +148,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         decoration: InputDecoration(
           labelText: label,
           border: OutlineInputBorder(),
+          floatingLabelStyle: TextStyle(color: AppColors.primaryBlue),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.primaryBlue),
+          ),
         ),
         obscureText: obscureText,
         keyboardType: keyboardType,

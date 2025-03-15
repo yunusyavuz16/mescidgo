@@ -1,5 +1,6 @@
 // lib/features/auth/presentation/widgets/email_form.dart
 import 'package:flutter/material.dart';
+import 'package:mescid_go/core/constants/colors.dart';
 import 'package:mescid_go/features/auth/presentation/viewmodels/email_sign_in_viewmodel.dart';
 
 class EmailForm extends StatelessWidget {
@@ -16,15 +17,23 @@ class EmailForm extends StatelessWidget {
           decoration: const InputDecoration(
             labelText: 'Email',
             border: OutlineInputBorder(),
+            floatingLabelStyle: TextStyle(color: AppColors.primaryBlue),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.primaryBlue),
+            ),
           ),
           keyboardType: TextInputType.emailAddress,
         ),
         const SizedBox(height: 20),
         TextField(
           controller: viewModel.passwordController,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             labelText: 'Password',
-            border: OutlineInputBorder(),
+            border: const OutlineInputBorder(),
+            floatingLabelStyle: TextStyle(color: AppColors.primaryBlue),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.primaryBlue),
+            ),
           ),
           obscureText: true,
         ),

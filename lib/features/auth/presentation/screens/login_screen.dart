@@ -26,8 +26,9 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final User? user = await authService.signInWithGoogle();
       if (user != null) {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil('/home', (route) => false);
+        Navigator.of(
+          context,
+        ).pushNamedAndRemoveUntil('/home', (route) => false);
       }
     } catch (e) {
       _showErrorDialog('Google Sign-In failed: $e');
@@ -46,8 +47,9 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final User? user = await authService.signInWithApple();
       if (user != null) {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil('/home', (route) => false);
+        Navigator.of(
+          context,
+        ).pushNamedAndRemoveUntil('/home', (route) => false);
       }
     } catch (e) {
       _showErrorDialog('Apple Sign-In failed: $e');
@@ -87,9 +89,10 @@ class _LoginScreenState extends State<LoginScreen> {
           _buildLoginContent(),
           CustomLoadingOverlay(
             isLoading: _isLoadingGoogle || _isLoadingApple,
-            message: _isLoadingGoogle
-                ? 'Signing in with Google...'
-                : 'Signing in with Apple...',
+            message:
+                _isLoadingGoogle
+                    ? 'Signing in with Google...'
+                    : 'Signing in with Apple...',
           ),
         ],
       ),
@@ -120,17 +123,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     'MescidGo\' ya Hoş Geldiniz!',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: AppColors.nearBlack,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      color: AppColors.nearBlack,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 10),
                   Text(
                     'Bugüne kadarki kazalarınızı kolayca hesaplayın. \nHadi başlayalım!',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppColors.nearBlack,
-                        ),
+                      color: AppColors.nearBlack,
+                    ),
                   ),
                   SizedBox(height: 40),
                   _buildAuthButton(
@@ -139,6 +142,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     textColor: AppColors.nearWhite,
                     isLoading: _isLoadingGoogle,
                     onPressed: _isLoadingGoogle ? null : _signInWithGoogle,
+                    container: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Image.asset(
+                        'assets/images/google-logo.png',
+                        height: 24,
+                      ),
+                    ),
                   ),
                   SizedBox(height: 20),
                   _buildAuthButton(
@@ -147,6 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     textColor: AppColors.nearWhite,
                     isLoading: _isLoadingApple,
                     onPressed: _isLoadingApple ? null : _signInWithApple,
+                    icon: Icons.apple, // Add appropriate icon
                   ),
                   SizedBox(height: 20),
                   _buildAuthButton(
@@ -155,11 +169,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     textColor: AppColors.nearWhite,
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => EmailScreen(),
-                        ),
+                        MaterialPageRoute(builder: (context) => EmailScreen()),
                       );
                     },
+                    icon: Icons.email, // Add appropriate icon
                   ),
                   SizedBox(height: 20),
                   Text(
@@ -193,6 +206,9 @@ class _LoginScreenState extends State<LoginScreen> {
     Color? borderColor,
     required VoidCallback? onPressed,
     bool isLoading = false,
+    final IconData? icon, // New property for icon
+    final Image? image,
+    final Container? container,
   }) {
     return CustomButton(
       text: text,
@@ -201,6 +217,9 @@ class _LoginScreenState extends State<LoginScreen> {
       borderColors: borderColor,
       isLoading: isLoading,
       onPressed: onPressed,
+      icon: icon,
+      image: image,
+      container: container,
     );
   }
 }

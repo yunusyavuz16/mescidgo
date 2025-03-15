@@ -5,17 +5,22 @@ class CustomButton extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final VoidCallback? onPressed;
-  final Color? borderColors; // Yeni özellik
-  final bool isLoading; // Yeni özellik
+  final Color? borderColors;
+  final bool isLoading;
+  final IconData? icon; // Property for icon
+  final Image? image; // New property for image
+  final Container? container;
 
   const CustomButton({
     required this.text,
     required this.backgroundColor,
     required this.textColor,
-    // borderColors: borderColors ?? backgroundColor,
     this.borderColors,
     this.onPressed,
-    this.isLoading = false, // Varsayılan olarak false
+    this.isLoading = false,
+    this.icon, // Initialize icon
+    this.image, // Initialize image
+    this.container,
   });
 
   @override
@@ -23,7 +28,6 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
-        // bordering
         foregroundColor: textColor,
         minimumSize: Size(double.infinity, 50),
         shape: RoundedRectangleBorder(
@@ -32,24 +36,44 @@ class CustomButton extends StatelessWidget {
         ),
       ),
       onPressed: isLoading ? null : onPressed,
-      child: isLoading
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(textColor),
-                ),
-                SizedBox(width: 20),
-                Text(
-                  text,
-                  style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ],
-            )
-          : Text(
-              text,
-              style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+      child:
+          isLoading
+              ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(textColor),
+                  ),
+                  SizedBox(width: 20),
+                  Text(
+                    text,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              )
+              : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (icon != null) ...[
+                    Icon(icon, color: textColor, size: 28),
+                    SizedBox(width: 10),
+                  ],
+                  if (image != null) ...[image!, SizedBox(width: 10)],
+                  if (container != null) ...[container!, SizedBox(width: 10)],
+                  Text(
+                    text,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
     );
   }
 }
