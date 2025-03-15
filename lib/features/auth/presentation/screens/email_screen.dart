@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mescid_go/core/constants/colors.dart';
 import 'package:mescid_go/core/widgets/custom_app_bar.dart';
+import 'package:mescid_go/features/auth/presentation/screens/forgot_password.dart';
 import 'package:mescid_go/features/auth/presentation/viewmodels/email_sign_in_viewmodel.dart';
 import 'package:mescid_go/features/auth/presentation/widgets/custom_button.dart';
 import 'package:mescid_go/features/auth/presentation/widgets/email_form.dart';
@@ -41,6 +42,17 @@ class EmailScreen extends StatelessWidget {
               backgroundColor: AppColors.primaryGreen,
               textColor: AppColors.primaryBeige,
               onPressed: () => _viewModel.signIn(context),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
+              },
+              child: const Text(
+                'Forget Password?',
+                style: TextStyle(color: AppColors.primaryGreen),
+              ),
             ),
           ],
         ),
